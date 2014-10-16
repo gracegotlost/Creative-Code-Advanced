@@ -37,6 +37,10 @@ PVector confidenceVector = new PVector();
 
 /*BODY-------------------------------------------------------------------*/
 PVector[] bodyPosition = new PVector[9]; 
+float pos1;
+float pos2;
+float zoom1;
+float zoom2;
 /*
 bodyPosition[0]: RIGHT HAND
  bodyPosition[1]: LEFT HAND
@@ -76,7 +80,7 @@ void setup() {
 /*DRAW-------------------------------------------------------------------*/
 void draw() {
 
-  background(255);
+  background(0);
   // update the camera
   kinect.update();
   // get all user IDs of tracked users
@@ -94,13 +98,17 @@ void draw() {
       if (confidence > confidenceLevel)
       {
         getPosition(userID[i]);
-        drawSkeleton(userID[i]);
+        //drawSkeleton(userID[i]);
         println(bodyPosition[1]);
 
-        player.setPan(map(bodyPosition[8].x, 100, 400, 1.0, -1.0));
-        player2.setPan(map(bodyPosition[8].x, 200, 500, -1.0, 1.0));
-        player.setGain(map(bodyPosition[1].y, 0, 400, 1.0, -1.0));
-        player2.setGain(map(bodyPosition[0].y, 0, 400, 1.0, -1.0));
+        pos1 = map(bodyPosition[8].x;
+        pos2 = map(bodyPosition[8].x;
+        zoom1 = map(bodyPosition[1].y;
+        zoom2 = map(bodyPosition[0].y;
+        player.setPan(pos1, 100, 400, 1.0, -1.0));
+        player2.setPan(pos2, 200, 500, -1.0, 1.0));
+        player.setGain(zoom1, 0, 400, 1.0, -1.0));
+        player2.setGain(zoom2, 0, 400, 1.0, -1.0));
         
         if (!player.isPlaying()) {
           player.rewind();
@@ -114,8 +122,8 @@ void draw() {
       }
     }
     else {
-      player.pause();
-      player2.pause();
+      player.close();
+      player2.close();
     }
   }
 }

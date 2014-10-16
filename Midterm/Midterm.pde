@@ -6,6 +6,15 @@ import ddf.minim.*;
 // create sound object
 AudioPlayer player;
 AudioPlayer player2;
+AudioPlayer player3;
+AudioPlayer player4;
+AudioPlayer player5;
+AudioPlayer player6;
+AudioPlayer player7;
+AudioPlayer player8;
+AudioPlayer player9;
+AudioPlayer player10;
+
 Minim minim;
 
 /*KINECT-------------------------------------------------------------------*/
@@ -109,19 +118,44 @@ void draw() {
         player2.setPan(pos2, 200, 500, -1.0, 1.0));
         player.setGain(zoom1, 0, 400, 1.0, -1.0));
         player2.setGain(zoom2, 0, 400, 1.0, -1.0));
-        
-        if (!player.isPlaying()) {
+
+        if (!player.isPlaying() && pos1 > 100) {
           player.rewind();
           player.play();
+        } else if (pos1 < 100
+          && !player3.isPlaying()
+          && !player4.isPlaying()
+          && !player5.isPlaying()
+          && !player6.isPlaying()) {
+          player3.rewind();
+          player3.play();
+          player4.rewind();
+          player4.play();
+          player5.rewind();
+          player5.play();
+          player6.rewind();
+          player6.play();
         }
-        
+
         if (!player2.isPlaying()) {
           player2.rewind();
           player2.play();
+        } else if (pos2 > 500
+          && !player7.isPlaying()
+          && !player8.isPlaying()
+          && !player9.isPlaying()
+          && !player10.isPlaying()) {
+          player7.rewind();
+          player7.play();
+          player8.rewind();
+          player8.play();
+          player9.rewind();
+          player9.play();
+          player10.rewind();
+          player10.play();
         }
       }
-    }
-    else {
+    } else {
       player.close();
       player2.close();
     }

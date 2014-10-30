@@ -9,19 +9,25 @@ void draw() {
   background(0);
   noStroke();
   lights();
-  translate(width/2, height/2, 300);
-  pushMatrix();
-  rotateY(rotation);
-  pushMatrix();
-  translate(-100, 0);
-  sphere(25);
-  popMatrix();
+  
+  for (int i = -10; i < 10; i++) {
+    pushMatrix();
+    translate(width/2, height/2 + i * 50, 0);
+    pushMatrix();
+    rotateY(rotation + i * 0.5);
+    pushMatrix();
+    translate(-100, 0);
+    sphere(20);
+    popMatrix();
 
-  pushMatrix();
-  translate(100, 0);
-  sphere(25);
-  popMatrix();
-  popMatrix();
-
+    pushMatrix();
+    translate(100, 0);
+    sphere(20);
+    popMatrix();
+    popMatrix();
+    popMatrix();
+  }
+  
   rotation = (rotation + (PI/100)) % (2 * PI);
 }
+

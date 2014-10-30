@@ -2,19 +2,6 @@
 import SimpleOpenNI.*;
 import ddf.minim.*;
 
-/*SOUND-------------------------------------------------------------------*/
-// create sound object
-AudioPlayer player;
-AudioPlayer player2;
-AudioPlayer player3;
-AudioPlayer player4;
-AudioPlayer player5;
-AudioPlayer player6;
-AudioPlayer player7;
-AudioPlayer player8;
-AudioPlayer player9;
-AudioPlayer player10;
-
 Minim minim;
 
 /*KINECT-------------------------------------------------------------------*/
@@ -62,6 +49,19 @@ bodyPosition[0]: RIGHT HAND
  bodyPosition[8]: HEAD
  */
 
+/*SOUND-------------------------------------------------------------------*/
+// create sound object
+AudioPlayer player;
+AudioPlayer player2;
+AudioPlayer player3;
+AudioPlayer player4;
+AudioPlayer player5;
+AudioPlayer player6;
+AudioPlayer player7;
+AudioPlayer player8;
+AudioPlayer player9;
+AudioPlayer player10;
+
 /*SETUP-------------------------------------------------------------------*/
 void setup() {
 
@@ -84,6 +84,14 @@ void setup() {
   minim = new Minim(this);
   player = minim.loadFile("Like A Rolling Stone.mp3", 2048);
   player2 = minim.loadFile("Piano.mp3", 2048);
+  player3 = minim.loadFile("01. Blowin' In The Wind.mp3", 2048);
+  player4 = minim.loadFile("02. Don't Think Twice, It's All R.mp3", 2048);
+  player5 = minim.loadFile("03. The Time They Are A-Changin'.mp3", 2048);
+  player6 = minim.loadFile("04. It Ain't Me Babe.mp3", 2048);
+  player7 = minim.loadFile("05. I still believe.mp3", 2048);
+  player8 = minim.loadFile("06. June Bride.mp3", 2048);
+  player9 = minim.loadFile("07. time after time.mp3", 2048);
+  player10 = minim.loadFile("08. Forgot.mp3", 2048);
 }
 
 /*DRAW-------------------------------------------------------------------*/
@@ -110,14 +118,14 @@ void draw() {
         //drawSkeleton(userID[i]);
         println(bodyPosition[1]);
 
-        pos1 = map(bodyPosition[8].x;
-        pos2 = map(bodyPosition[8].x;
-        zoom1 = map(bodyPosition[1].y;
-        zoom2 = map(bodyPosition[0].y;
-        player.setPan(pos1, 100, 400, 1.0, -1.0));
-        player2.setPan(pos2, 200, 500, -1.0, 1.0));
-        player.setGain(zoom1, 0, 400, 1.0, -1.0));
-        player2.setGain(zoom2, 0, 400, 1.0, -1.0));
+        pos1 = bodyPosition[8].x;
+        pos2 = bodyPosition[8].x;
+        zoom1 = bodyPosition[1].y;
+        zoom2 = bodyPosition[0].y;
+        player.setPan(map(pos1, 100, 400, 1.0, -1.0));
+        player2.setPan(map(pos2, 200, 500, -1.0, 1.0));
+        player.setGain(map(zoom1, 0, 400, 1.0, -1.0));
+        player2.setGain(map(zoom2, 0, 400, 1.0, -1.0));
 
         if (!player.isPlaying() && pos1 > 100) {
           player.rewind();
@@ -127,6 +135,7 @@ void draw() {
           && !player4.isPlaying()
           && !player5.isPlaying()
           && !player6.isPlaying()) {
+          player.close();
           player3.rewind();
           player3.play();
           player4.rewind();
@@ -145,6 +154,7 @@ void draw() {
           && !player8.isPlaying()
           && !player9.isPlaying()
           && !player10.isPlaying()) {
+          player2.close();
           player7.rewind();
           player7.play();
           player8.rewind();
@@ -158,6 +168,14 @@ void draw() {
     } else {
       player.close();
       player2.close();
+      player3.close();
+      player4.close();
+      player5.close();
+      player6.close();
+      player7.close();
+      player8.close();
+      player9.close();
+      player10.close();
     }
   }
 }

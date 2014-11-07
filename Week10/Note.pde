@@ -1,8 +1,18 @@
 class Note implements AudioSignal {
   private SineWave sine;
+  private int[] pitches = {
+    262, 277, 294, 311, 330, 349, 370, 392, 415, 440, 466, 494, 523, 554, 587
+  };
+  private float volume;
+  private int pitch;
 
-  Note(int pitch) {
-    //sine = new SineWave(freq, level, out.sampleRate());
+  Note(int _pitch) {
+    pitch = _pitch;
+    volume = 0.5;
+    sine = new SineWave(pitches[pitch], volume, out.sampleRate());
+  }
+
+  void play() {
     out.clearSignals();
     out.addSignal(sine);
   }

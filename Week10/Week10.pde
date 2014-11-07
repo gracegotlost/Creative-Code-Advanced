@@ -17,6 +17,9 @@ float[] buffer;
 float gain = 100;
 int size = 10;
 boolean isPlaying = false;
+boolean isNow = false;
+int count = 0;
+int current = -1;
 
 void setup() {
   size(640, 480);
@@ -25,7 +28,7 @@ void setup() {
   out = minim.getLineOut(Minim.STEREO);
   buffer = new float[in.bufferSize()];
   fft = new FFT(in.bufferSize(), in.sampleRate());
-  
+
   myNote = new ArrayList<Note>();
 
   noStroke();
@@ -36,50 +39,93 @@ void draw() {
 
   fft.forward(in.mix);
 
+  // RECORDING
   if (!isPlaying) {
-    float maxFFT = -1;
-    for (int i = 0; i < fft.specSize (); i++) {
-      float fftAvg = 0;
-      for (int j = i * (fft.specSize ()/size); j < (i + 1) * (fft.specSize()/size); j++) {
-        fftAvg += fft.getBand(j);
+    float maxFFT = 0;
+    count = 0;
+    if (frameCount%20 == 0) {
+      for (int i = 0; i < fft.specSize (); i++) {
+        float fftAvg = 0;
+        for (int j = i * (fft.specSize ()/size); j < (i + 1) * (fft.specSize()/size); j++) {
+          fftAvg += fft.getBand(j);
+        }
+        fftAvg = (fftAvg/(fft.specSize()/size)) * 10;
+        if (fftAvg > maxFFT) {
+          maxFFT = fftAvg;
+          count = i;
+          myNote.add(new Note(i));
+        }
+        //rect(i * (width/size), (height - fftAvg), width/size, height);
       }
-      fftAvg = (fftAvg/(fft.specSize()/size)) * 10;
-      if (fftAvg > maxFFT) {
-        maxFFT = fftAvg;
-        myNote.add(new Note(i));
+    }
+    // DRAW KEYS
+    // WHITE KEY
+    for (int i = 0; i < fft.specSize (); i += 2) {
+      fill(255);
+      if (i == count) {
+        rect(i/2 * (width/size) + i/2 * 2, height - 50 + 10, width/size, 50);
+      } else {
+        rect(i/2 * (width/size) + i/2 * 2, height - 50, width/size, 50);
       }
-      //rect(i * (width/size), (height - fftAvg), width/size, height);
+    }
+
+    // BLACK KEY
+    for (int i = 1; i < fft.specSize (); i += 2) {
+      fill(0);
+      if (i == count) {
+        rect(((i-1)/2 + 0.7) * (width/size) + (i-1)/2 * 2, height - 60 + 10, 400/size, 30);
+      } else {
+        rect(((i-1)/2 + 0.7) * (width/size) + (i-1)/2 * 2, height - 60, 400/size, 30);
+      }
     }
   }
 
-  // DRAW KEYS
-  // WHITE KEY
-  for (int i = 0; i < size; i += 2) {
-    fill(255);
-    if (i == count) {
-      rect(i/2 * (width/size) + i/2 * 2, height - 50 + 10, width/size, 50);
-    } else {
-      rect(i/2 * (width/size) + i/2 * 2, height - 50, width/size, 50);
-    }
-  }
+  // PLAYING
+  else {
+    // PLAYING NOTES
 
-  // BLACK KEY
-  for (int i = 1; i < size; i += 2) {
-    fill(0);
-    if (i == count) {
-      rect(((i-1)/2 + 0.7) * (width/size) + (i-1)/2 * 2, height - 60 + 10, 400/size, 30);
-    } else {
-      rect(((i-1)/2 + 0.7) * (width/size) + (i-1)/2 * 2, height - 60, 400/size, 30);
+    if ((frameCount%20) == 0) {
+      Note n = myNote.get(count);
+      n.play();
+      current = n.pitch;
+      count = (count + 1)%myNote.size();
+      isNow = true;
+      println(current);
     }
+    /* 
+     // DRAW KEYS
+     // WHITE KEY
+     for (int i = 0; i < fft.specSize (); i += 2) {
+     fill(255);
+     if (isNow && current == i) {
+     isNow = false;
+     current = -1;
+     rect(i/2 * (width/size) + i/2 * 2, height - 50 + 10, width/size, 50);
+     } else {
+     rect(i/2 * (width/size) + i/2 * 2, height - 50, width/size, 50);
+     }
+     }
+     
+     // BLACK KEY
+     for (int i = 1; i < fft.specSize (); i += 2) {
+     fill(0);
+     if (isNow && current == i) {
+     isNow = false;
+     current = -1;
+     rect(((i-1)/2 + 0.7) * (width/size) + (i-1)/2 * 2, height - 60 + 10, 400/size, 30);
+     } else {
+     rect(((i-1)/2 + 0.7) * (width/size) + (i-1)/2 * 2, height - 60, 400/size, 30);
+     }
+     }
+     */
   }
 }
 
 void keyPressed() {
+  if (isPlaying) {
+    myNote.clear();
+    out.clearSignals();
+  }
   isPlaying = !isPlaying;
-  //  switch(key) {
-  //  case 'a': 
-  //    myNote = new Note(440, volume);
-  //    break;
-  //  }
 }
 

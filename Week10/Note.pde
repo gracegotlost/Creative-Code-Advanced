@@ -1,7 +1,11 @@
 class Note implements AudioSignal {
   private SineWave sine;
   private int[] pitches = {
-    262, 277, 294, 311, 330, 349, 370, 392, 415, 440, 466, 494, 523, 554, 587
+    262, 277, 294, 311, 
+    330, 349, 370, 392, 
+    415, 440, 466, 494, 
+    523, 554, 587, 624,
+    679, 702, 758, 796
   };
   private float volume;
   private int pitch;

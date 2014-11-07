@@ -15,7 +15,7 @@ float volume = 0.5;
 
 float[] buffer;
 float gain = 100;
-int size = 10;
+int size = 20;
 boolean isPlaying = false;
 boolean isNow = false;
 int count = 0;
@@ -43,7 +43,7 @@ void draw() {
   if (!isPlaying) {
     float maxFFT = 0;
     count = 0;
-    if (frameCount%20 == 0) {
+    if (frameCount%10 == 0) {
       for (int i = 0; i < fft.specSize (); i++) {
         float fftAvg = 0;
         for (int j = i * (fft.specSize ()/size); j < (i + 1) * (fft.specSize()/size); j++) {
@@ -63,9 +63,9 @@ void draw() {
     for (int i = 0; i < fft.specSize (); i += 2) {
       fill(255);
       if (i == count) {
-        rect(i/2 * (width/size) + i/2 * 2, height - 50 + 10, width/size, 50);
+        rect(i/2 * (width/size) + i/2 * 2, height - 40 + 10, width/size, 40);
       } else {
-        rect(i/2 * (width/size) + i/2 * 2, height - 50, width/size, 50);
+        rect(i/2 * (width/size) + i/2 * 2, height - 40, width/size, 40);
       }
     }
 
@@ -73,9 +73,9 @@ void draw() {
     for (int i = 1; i < fft.specSize (); i += 2) {
       fill(0);
       if (i == count) {
-        rect(((i-1)/2 + 0.7) * (width/size) + (i-1)/2 * 2, height - 60 + 10, 400/size, 30);
+        rect(((i-1)/2 + 0.6) * (width/size) + (i-1)/2 * 2, height - 50 + 10, 500/size, 30);
       } else {
-        rect(((i-1)/2 + 0.7) * (width/size) + (i-1)/2 * 2, height - 60, 400/size, 30);
+        rect(((i-1)/2 + 0.6) * (width/size) + (i-1)/2 * 2, height - 50, 500/size, 30);
       }
     }
   }
@@ -84,7 +84,7 @@ void draw() {
   else {
     // PLAYING NOTES
 
-    if ((frameCount%20) == 0) {
+    if ((frameCount%10) == 0) {
       Note n = myNote.get(count);
       n.play();
       current = n.pitch;
@@ -92,32 +92,31 @@ void draw() {
       isNow = true;
       println(current);
     }
-    /* 
-     // DRAW KEYS
-     // WHITE KEY
-     for (int i = 0; i < fft.specSize (); i += 2) {
-     fill(255);
-     if (isNow && current == i) {
-     isNow = false;
-     current = -1;
-     rect(i/2 * (width/size) + i/2 * 2, height - 50 + 10, width/size, 50);
-     } else {
-     rect(i/2 * (width/size) + i/2 * 2, height - 50, width/size, 50);
-     }
-     }
-     
-     // BLACK KEY
-     for (int i = 1; i < fft.specSize (); i += 2) {
-     fill(0);
-     if (isNow && current == i) {
-     isNow = false;
-     current = -1;
-     rect(((i-1)/2 + 0.7) * (width/size) + (i-1)/2 * 2, height - 60 + 10, 400/size, 30);
-     } else {
-     rect(((i-1)/2 + 0.7) * (width/size) + (i-1)/2 * 2, height - 60, 400/size, 30);
-     }
-     }
-     */
+
+    // DRAW KEYS
+    // WHITE KEY
+    for (int i = 0; i < fft.specSize (); i += 2) {
+      fill(255);
+      if (isNow && current == i) {
+        isNow = false;
+        current = -1;
+        rect(i/2 * (width/size) + i/2 * 2, height - 40 + 10, width/size, 40);
+      } else {
+        rect(i/2 * (width/size) + i/2 * 2, height - 40, width/size, 40);
+      }
+    }
+
+    // BLACK KEY
+    for (int i = 1; i < fft.specSize (); i += 2) {
+      fill(0);
+      if (isNow && current == i) {
+        isNow = false;
+        current = -1;
+        rect(((i-1)/2 + 0.6) * (width/size) + (i-1)/2 * 2, height - 50 + 10, 500/size, 30);
+      } else {
+        rect(((i-1)/2 + 0.6) * (width/size) + (i-1)/2 * 2, height - 50, 500/size, 30);
+      }
+    }
   }
 }
 

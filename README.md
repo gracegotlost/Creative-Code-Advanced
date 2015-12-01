@@ -1,4 +1,4 @@
-Creative-Code-Advanced
-======================
 
-this is a collection of my assignments for this class
+# Creative-Code-Advanced
+
+A collection of my experiments using Processing and openFrameworks(C++).
